@@ -1,0 +1,15 @@
+---
+tasks:
+- id: 2
+  title: shop
+  description: for new shoes
+- id: 3
+  title: trip to the gym
+  description: sit ups
+- id: 4
+  title: cook
+  description: marinate meat and grill
+- id: 6
+  title: Vacation
+  description: Month in Costa Rica
+total: 6
