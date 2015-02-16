@@ -1,6 +1,8 @@
 # task_manager
 
 Program allows you to:
-create tasks
-review a list of tasks
-edit and delete tasks
+<ul>
+	<li>create tasks</li>l
+	<li>review a list of tasks</li>
+	<li>edit and delete tasks</li>
+</ul>
