@@ -10,12 +10,7 @@ class TaskManagerTest < ModelTest
     assert_equal 1, task.id
   end
 
-  def test_raw_tasks_creates_an_array
-    TaskManager.create({ :id=> "1", :title => "go shopping", :description => "eggs, milk, butter"})
-    assert_equal true, TaskManager.raw_tasks.is_a?(Array)
-  end
-
-  def test_raw_tasks_has_three_hashes
+  def test_raw_tasks_has_three_hashes   
     TaskManager.create({ :title => "go shopping", :description => "eggs, milk, butter"})
     TaskManager.create({ :title => "school", :description => "write tests"})
     TaskManager.create({ :title => "exercise", :description => "swim"})
@@ -28,17 +23,7 @@ class TaskManagerTest < ModelTest
     TaskManager.create({ :title => "go shopping", :description => "eggs, milk, butter"})
 
     tasks = TaskManager.raw_tasks
-    assert_equal "go shopping", tasks.first["title"] 
-  end
-
-  def test_raw_tasks_can_identify_attributes  
-    TaskManager.create({ :title => "go shopping", :description => "eggs, milk, butter"})
-    TaskManager.create({ :title => "school", :description => "write tests"})
-    TaskManager.create({ :title => "exercise", :description => "swim"})
-
-    tasks = TaskManager.raw_tasks
-    assert_equal "write tests", tasks[1]["description"] 
-    assert_equal "swim", tasks[2]["description"] 
+    assert_equal "go shopping", tasks.first[:title] 
   end
 
   def test_it_can_count_all_tasks
@@ -52,6 +37,7 @@ class TaskManagerTest < ModelTest
   end
 
   def test_it_can_find_the_task_by_id
+    
     TaskManager.create({ :title => "go shopping", :description => "eggs, milk, butter"})
     TaskManager.create({ :title => "school", :description => "write tests"})
     TaskManager.create({ :title => "exercise", :description => "swim"})
@@ -63,12 +49,16 @@ class TaskManagerTest < ModelTest
   end
 
   def test_it_can_update_a_task
+  
     TaskManager.create({ :title => "go shopping", :description => "eggs, milk, butter"})
-    TaskManager.update(1, { :title => "shop till you drop", :description => "eggs, milk, butter"})
-    assert_equal "shop till you drop", TaskManager.all.first.title
+    TaskManager.update(1, { :title => "shop till you drop", :description => "candy, milk, hot dogs"})
+    assert_equal "shop till you drop", TaskManager.find(1).title
+    assert_equal "candy, milk, hot dogs", TaskManager.find(1).description
+
   end
 
   def test_it_can_delete_a_task
+    
     TaskManager.create({ :title => "go shopping", :description => "eggs, milk, butter"})
     task_id = TaskManager.all.last.id
 
@@ -77,6 +67,7 @@ class TaskManagerTest < ModelTest
   end
  
   def test_it_can_delete_all_tasks
+    
     TaskManager.create({ :title => "go shopping", :description => "eggs, milk, butter"})
     TaskManager.create({ :title => "school", :description => "write tests"})
 

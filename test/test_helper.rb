@@ -9,7 +9,7 @@ require 'capybara'
 require 'tilt/erb'
 
 class ModelTest < Minitest::Test 
-  #after every test, dump the data
+  # after every test, dump the data
   def teardown
     TaskManager.delete_all
   end
