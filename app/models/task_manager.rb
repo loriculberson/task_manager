@@ -30,27 +30,24 @@ class TaskManager
   end
 
   def self.find(id)
-    # require 'pry';binding.pry
     Task.new(raw_task(id))
-
-    # tasks = database['tasks']
-    # Task.new({ :id=> 1, :title=> tasks[:title], :description=>'a description'})
     #find method returns a Task object based on the id#
-    #id # gets passed in
+    #id num gets passed in
     #if I have Task objects, I can call .title, .id, .description on them
   end
 
   def self.update(id, task)
-    #task above is the task you arepassing in
+    #task above is the task hash you are passing in
       raw_tasks.where(:id => id).update(:title => task[:title], :description => task[:description])
   end
 
   def self.delete(id)
-      database[:tasks].delete { |task| task[:id] == id }
+      raw_tasks.where(:id => id).delete {|task| task[:id] == id}
   end
 
   def self.delete_all
     # go into database and resetting everything to 0
+    #needed so that the tests clear out found data before running the next test
       database[:tasks].delete
   end
 
