@@ -1,5 +1,3 @@
-require 'yaml/store'
-
 class TaskManager
   def self.database
     if ENV["TASK_MANAGER_ENV"] == 'test'
@@ -9,24 +7,24 @@ class TaskManager
     end
   end
 
-  def self.create(task)
-    database.transaction do
-      new_id = database[:tasks].to_a.count + 1
-      database[:tasks] << { "id"=> new_id, "title"=> task[:title], "description" => task[:description]} 
-    end
+  def self.tasks_table
+    database[:tasks]
+    #dataset object
   end
 
-  def self.raw_tasks
-      database[:tasks]
-      #dataset object
+  def self.create(task)
+    tasks_table.insert(:title =>task[:title], :description => task[:description])
   end
 
   def self.all
-    raw_tasks.map { |data| Task.new(data) }
+    tasks_table.map { |data| Task.new(data) }
   end
 
   def self.raw_task(id)
-    raw_tasks.find { |task| task[:id] == id }
+    tasks_table.where(:id => id).first
+    #when we call where on the dataset object, an array is returned
+    #where returns an array of a hash. In order to return only the hash, we need to isolate it
+    #by calling either .first
   end
 
   def self.find(id)
@@ -38,11 +36,11 @@ class TaskManager
 
   def self.update(id, task)
     #task above is the task hash you are passing in
-      raw_tasks.where(:id => id).update(:title => task[:title], :description => task[:description])
+      tasks_table.where(:id => id).update(:title => task[:title], :description => task[:description])
   end
 
   def self.delete(id)
-      raw_tasks.where(:id => id).delete {|task| task[:id] == id}
+      tasks_table.where(:id => id).delete 
   end
 
   def self.delete_all
